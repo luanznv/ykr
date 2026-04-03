@@ -6,7 +6,7 @@
     <title>Luan - Perfil</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { margin: 0; overflow: hidden; background-color: #0f0f0f; font-family: 'Inter', sans-serif; color: white; cursor: crosshair; }
         .bg-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; opacity: 0.4; z-index: -2; }
@@ -16,32 +16,31 @@
         .avatar-no-glow { transition: transform 0.3s ease; }
         .avatar-no-glow:hover { transform: scale(1.05); }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
+        
+        /* Modal Transitions */
+        #profile-modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        #modal-content { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
 <body class="antialiased selection:bg-white selection:text-black">
 
     <div id="profile-view" class="relative active-profile">
 
-        <!-- Conteúdo do Perfil -->
         <div id="main-content" class="relative min-h-screen flex items-center justify-center p-4">
             
-            <!-- Fundo Dinâmico -->
             <div id="generated-bg" class="bg-image" style="background-image: none; background-color: rgb(10, 10, 10);"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 z-[-1]"></div>
             <canvas id="particles" class="absolute inset-0 z-0 pointer-events-none" width="380" height="563" style="display: block;"></canvas>
 
-            <!-- Card Central -->
             <div class="glass-card z-10 p-8 rounded-3xl w-full max-w-[420px] flex flex-col items-center relative overflow-hidden group">
                 
                 <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gray-700 via-white to-gray-700 opacity-50"></div>
 
-                <!-- Avatar -->
                 <div class="relative mb-4">
                     <img id="display-avatar" src="https://i.ibb.co/7dXgvs55/0d2b78aad853bb7d208cdacfbe67c37e.jpg" alt="Avatar" class="w-28 h-28 rounded-full object-cover border-2 border-white/20 avatar-no-glow">
                     <div class="absolute bottom-1 right-1 w-5 h-5 bg-[#23a559] border-4 border-[#0f0f0f] rounded-full"></div>
                 </div>
 
-                <!-- Nome e Badges -->
                 <div class="flex items-center gap-2 mb-1">
                     <h1 id="display-name" class="text-2xl font-bold tracking-tight">Luan</h1>
                     <div id="display-badges" class="flex gap-1" style="display: flex;">
@@ -49,18 +48,25 @@
                     </div>
                 </div>
                 
-                <!-- Subtítulo -->
-                <p id="display-username" class="text-gray-400 text-sm font-medium mb-5">@luanznv</p>
+                <p id="display-username" class="text-gray-400 text-sm font-medium mb-3">@luanznv</p>
 
-                <!-- Typewriter -->
+                <button onclick="toggleModal()" class="mb-5 px-5 py-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-full text-xs font-semibold transition-all duration-300 text-white backdrop-blur-sm flex items-center gap-2 transform hover:scale-105 active:scale-95 cursor-pointer z-20">
+                    <i class="fa-solid fa-user text-[10px]"></i> Perfil
+                </button>
+
                 <div class="h-10 text-center mb-6 px-4">
                     <span id="typewriter" class="font-mono text-gray-300 text-sm md:text-base">?</span><span class="font-mono animate-pulse">_</span>
                 </div>
 
-                <!-- Container Redes Sociais -->
-                <div id="display-socials" class="flex flex-wrap justify-center items-center gap-5 mb-8"><a href="https://www.instagram.com/5e_luan?igsh=ZTR4d3dvaDZxYXoy" target="_blank" class="text-gray-400 hover:text-white transform hover:-translate-y-1 hover:scale-110 transition-all duration-300 relative z-20"><i class="fa-brands fa-instagram text-2xl drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]"></i></a><a href="https://www.roblox.com/pt/users/10155924133/profile?friendshipSourceType=PlayerSearch" target="_blank" class="text-gray-400 hover:text-white transform hover:-translate-y-1 hover:scale-110 transition-all duration-300 relative z-20"><svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]"><path d="M5.426 3.064L20.936 6.574 18.574 20.936 3.064 17.426 5.426 3.064zM12.987 13.916c.866-.196 1.411-1.058 1.215-1.924-.196-.866-1.058-1.411-1.924-1.215-.866.196-1.411 1.058-1.215 1.924.196.866 1.058 1.411 1.924 1.215z"></path></svg></a></div>
+                <div id="display-socials" class="flex flex-wrap justify-center items-center gap-5 mb-8">
+                    <a href="https://www.instagram.com/5e_luan?igsh=ZTR4d3dvaDZxYXoy" target="_blank" class="text-gray-400 hover:text-white transform hover:-translate-y-1 hover:scale-110 transition-all duration-300 relative z-20">
+                        <i class="fa-brands fa-instagram text-2xl drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]"></i>
+                    </a>
+                    <a href="https://www.roblox.com/pt/users/10155924133/profile?friendshipSourceType=PlayerSearch" target="_blank" class="text-gray-400 hover:text-white transform hover:-translate-y-1 hover:scale-110 transition-all duration-300 relative z-20">
+                        <span class="text-2xl font-black drop-shadow-[0_0_5px_rgba(255,255,255,0.3)]">R</span>
+                    </a>
+                </div>
 
-                <!-- Rodapé -->
                 <div class="w-full pt-4 border-t border-white/10 flex justify-center items-center text-xs text-gray-500">
                     <div class="flex items-center gap-1.5">
                         <i class="fa-solid fa-eye"></i>
@@ -69,8 +75,53 @@
                 </div>
             </div>
             
-            <!-- Botões flutuantes -->
+        </div>
+    </div>
+
+    <div id="profile-modal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible bg-black/60 backdrop-blur-sm px-4">
+        <div id="modal-content" class="glass-card p-6 rounded-3xl w-full max-w-[340px] relative transform scale-95 shadow-2xl">
+            <button onclick="toggleModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors cursor-pointer">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
             
+            <div class="flex items-center gap-3 mb-5 border-b border-white/10 pb-3">
+                <div class="w-10 h-10 rounded-full overflow-hidden border border-white/20">
+                    <img src="https://i.ibb.co/7dXgvs55/0d2b78aad853bb7d208cdacfbe67c37e.jpg" alt="Avatar Mini" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h2 class="text-lg font-bold leading-tight">Estatísticas</h2>
+                    <p class="text-xs text-gray-400">Visão Geral</p>
+                </div>
+            </div>
+            
+            <div class="space-y-2 text-sm text-gray-300">
+                <div class="flex justify-between items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-xl border border-white/5">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-users text-gray-400 w-4"></i> Seguidores</span>
+                    <span class="font-bold text-white tracking-wide">13.3k</span>
+                </div>
+                <div class="flex justify-between items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-xl border border-white/5">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-user-plus text-gray-400 w-4"></i> Seguindo</span>
+                    <span class="font-bold text-white tracking-wide">0</span>
+                </div>
+                <div class="flex justify-between items-center bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-xl border border-white/5">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-eye text-gray-400 w-4"></i> Visualizações</span>
+                    <span class="font-bold text-white tracking-wide">135k</span>
+                </div>
+                <div class="flex flex-col bg-white/5 hover:bg-white/10 transition-colors p-3 rounded-xl border border-white/5 gap-1.5 mt-2">
+                    <span class="flex items-center gap-2 text-gray-300"><i class="fa-solid fa-calendar-days text-gray-400 w-4"></i> Entrada no Sistema</span>
+                    <span class="font-medium text-white text-xs bg-black/30 w-fit px-2 py-1 rounded-md">18 De Fev de 2022 (18:13)</span>
+                </div>
+            </div>
+
+            <h3 class="text-sm font-bold mt-6 mb-3 text-gray-400 uppercase tracking-wider text-center">Emblemas Conquistados</h3>
+            <div class="flex flex-wrap justify-center gap-2">
+                <div class="bg-blue-500/10 text-blue-400 border border-blue-500/30 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_0_10px_rgba(59,130,246,0.1)] hover:bg-blue-500/20 transition-colors cursor-default" title="Usuário Verificado">
+                    <i class="fa-solid fa-circle-check"></i> Verificado
+                </div>
+                <div class="bg-purple-500/10 text-purple-400 border border-purple-500/30 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_0_10px_rgba(168,85,247,0.1)] hover:bg-purple-500/20 transition-colors cursor-default" title="Membro da Velha Geração">
+                    <i class="fa-solid fa-hourglass-half"></i> Old Gen
+                </div>
+            </div>
         </div>
     </div>
 
@@ -170,6 +221,36 @@
             initParticles();
             animateParticles();
         }
+
+        // --- Sistema do Modal de Perfil ---
+        function toggleModal() {
+            const modal = document.getElementById('profile-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            if (modal.classList.contains('opacity-0')) {
+                // Abrir modal
+                modal.classList.remove('opacity-0', 'invisible');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            } else {
+                // Fechar modal
+                modal.classList.add('opacity-0');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-95');
+                
+                // Aguarda a transição de opacidade para esconder o elemento da tela
+                setTimeout(() => {
+                    modal.classList.add('invisible');
+                }, 300);
+            }
+        }
+
+        // Fechar o modal ao clicar na parte escura do fundo
+        document.getElementById('profile-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleModal();
+            }
+        });
     </script>
 </body>
 </html>
