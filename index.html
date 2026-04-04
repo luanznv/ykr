@@ -18,8 +18,8 @@
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         
         /* Modal Transitions */
-        #profile-modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
-        #modal-content { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-overlay { transition: opacity 0.3s ease, visibility 0.3s ease; }
+        .modal-content-box { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     </style>
 </head>
 <body class="antialiased selection:bg-white selection:text-black">
@@ -48,11 +48,16 @@
                     </div>
                 </div>
                 
-                <p id="display-username" class="text-gray-400 text-sm font-medium mb-3">@luanznv</p>
+                <p id="display-username" class="text-gray-400 text-sm font-medium mb-4">@luanznv</p>
 
-                <button onclick="toggleModal()" class="mb-5 px-5 py-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-full text-xs font-semibold transition-all duration-300 text-white backdrop-blur-sm flex items-center gap-2 transform hover:scale-105 active:scale-95 cursor-pointer z-20">
-                    <i class="fa-solid fa-user text-[10px]"></i> Perfil
-                </button>
+                <div class="flex flex-wrap justify-center gap-3 mb-5 z-20">
+                    <button onclick="toggleModal('profile-modal', 'modal-content')" class="px-5 py-1.5 bg-white/5 hover:bg-white/15 border border-white/10 rounded-full text-xs font-semibold transition-all duration-300 text-white backdrop-blur-sm flex items-center gap-2 transform hover:scale-105 active:scale-95 cursor-pointer">
+                        <i class="fa-solid fa-user text-[10px]"></i> Perfil
+                    </button>
+                    <button onclick="toggleModal('auth-modal', 'auth-content')" class="px-5 py-1.5 bg-white text-black hover:bg-gray-200 border border-white rounded-full text-xs font-bold transition-all duration-300 flex items-center gap-2 transform hover:scale-105 active:scale-95 cursor-pointer">
+                        <i class="fa-solid fa-plus text-[10px]"></i> Seguir
+                    </button>
+                </div>
 
                 <div class="h-10 text-center mb-6 px-4">
                     <span id="typewriter" class="font-mono text-gray-300 text-sm md:text-base">?</span><span class="font-mono animate-pulse">_</span>
@@ -78,9 +83,9 @@
         </div>
     </div>
 
-    <div id="profile-modal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible bg-black/60 backdrop-blur-sm px-4">
-        <div id="modal-content" class="glass-card p-6 rounded-3xl w-full max-w-[340px] relative transform scale-95 shadow-2xl">
-            <button onclick="toggleModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors cursor-pointer">
+    <div id="profile-modal" class="modal-overlay fixed inset-0 z-40 flex items-center justify-center opacity-0 invisible bg-black/60 backdrop-blur-sm px-4">
+        <div id="modal-content" class="modal-content-box glass-card p-6 rounded-3xl w-full max-w-[360px] relative transform scale-95 shadow-2xl">
+            <button onclick="toggleModal('profile-modal', 'modal-content')" class="absolute top-5 right-5 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
             
@@ -113,14 +118,114 @@
                 </div>
             </div>
 
-            <h3 class="text-sm font-bold mt-6 mb-3 text-gray-400 uppercase tracking-wider text-center">Emblemas Conquistados</h3>
+            <h3 class="text-sm font-bold mt-6 mb-3 text-gray-400 uppercase tracking-wider text-center">Emblemas</h3>
+            
             <div class="flex flex-wrap justify-center gap-2">
                 <div class="bg-blue-500/10 text-blue-400 border border-blue-500/30 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_0_10px_rgba(59,130,246,0.1)] hover:bg-blue-500/20 transition-colors cursor-default" title="Usuário Verificado">
                     <i class="fa-solid fa-circle-check"></i> Verificado
                 </div>
+                <div class="bg-green-500/10 text-green-400 border border-green-500/30 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_0_10px_rgba(34,197,94,0.1)] hover:bg-green-500/20 transition-colors cursor-default" title="E-mail Confirmado">
+                    <i class="fa-solid fa-envelope-circle-check"></i> E-mail Verificado
+                </div>
                 <div class="bg-purple-500/10 text-purple-400 border border-purple-500/30 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_0_10px_rgba(168,85,247,0.1)] hover:bg-purple-500/20 transition-colors cursor-default" title="Membro da Velha Geração">
                     <i class="fa-solid fa-hourglass-half"></i> Old Gen
                 </div>
+                <div class="bg-pink-500/10 text-pink-400 border border-pink-500/30 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_0_10px_rgba(236,72,153,0.1)] hover:bg-pink-500/20 transition-colors cursor-default" title="Membro VIP">
+                    <i class="fa-solid fa-star"></i> Vip
+                </div>
+                <div class="bg-yellow-500/10 text-yellow-400 border border-yellow-500/30 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_0_10px_rgba(234,179,8,0.1)] hover:bg-yellow-500/20 transition-colors cursor-default" title="Membro de Ouro">
+                    <i class="fa-solid fa-crown"></i> Membro De Ouro
+                </div>
+                <div class="bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_0_10px_rgba(6,182,212,0.1)] hover:bg-cyan-500/20 transition-colors cursor-default" title="Membro de Diamante">
+                    <i class="fa-solid fa-gem"></i> Membro De Diamante
+                </div>
+                <button onclick="toggleModal('badge-info-modal', 'badge-info-content')" class="bg-gray-500/10 text-gray-300 border border-gray-500/30 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-[0_0_10px_rgba(156,163,175,0.1)] hover:bg-gray-500/20 transition-colors cursor-pointer transform hover:scale-105 active:scale-95" title="Informações da Conta">
+                    <i class="fa-solid fa-hashtag"></i> Conta N°453
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="badge-info-modal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible bg-black/60 backdrop-blur-sm px-4">
+        <div id="badge-info-content" class="modal-content-box glass-card p-5 rounded-3xl w-full max-w-[280px] relative transform scale-95 shadow-2xl border border-white/20 text-center">
+            <button onclick="toggleModal('badge-info-modal', 'badge-info-content')" class="absolute top-3 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <div class="w-14 h-14 bg-gray-500/10 border border-gray-500/30 rounded-full flex items-center justify-center mx-auto mb-3 shadow-[0_0_15px_rgba(156,163,175,0.2)]">
+                <i class="fa-solid fa-hashtag text-2xl text-gray-300"></i>
+            </div>
+            
+            <h3 class="text-white font-bold mb-2">Conta N°453</h3>
+            <p class="text-xs text-gray-300 leading-relaxed px-2">Esta Conta Foi Uma Das Primeiras 1000 Contas A Serem Criadas em <span class="font-bold text-white">ykr.lol</span></p>
+            
+            <button onclick="toggleModal('badge-info-modal', 'badge-info-content')" class="mt-5 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-xs font-semibold transition-all duration-300 text-white cursor-pointer w-full">
+                Fechar
+            </button>
+        </div>
+    </div>
+
+    <div id="auth-modal" class="modal-overlay fixed inset-0 z-40 flex items-center justify-center opacity-0 invisible bg-black/80 backdrop-blur-md px-4">
+        <div id="auth-content" class="modal-content-box glass-card p-6 rounded-3xl w-full max-w-[320px] relative transform scale-95 shadow-2xl border border-white/20">
+            <button onclick="toggleModal('auth-modal', 'auth-content')" class="absolute top-4 right-5 text-gray-400 hover:text-white transition-colors cursor-pointer z-10">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            
+            <div id="auth-main" class="block mt-2">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-white/5 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+                        <i class="fa-solid fa-user-lock text-2xl text-white"></i>
+                    </div>
+                    <h2 class="text-lg font-bold text-white mb-2">Ação Restrita</h2>
+                    <p class="text-sm text-gray-400 leading-relaxed">Você precisa criar uma conta em <span class="text-white font-semibold">ykr.lol</span>, ou logar para seguir.</p>
+                </div>
+                
+                <div class="flex flex-col gap-3">
+                    <button onclick="switchAuthView('auth-login')" class="w-full py-2.5 bg-white text-black hover:bg-gray-200 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket"></i> Fazer Login
+                    </button>
+                    <button onclick="switchAuthView('auth-register')" class="w-full py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-sm font-semibold text-white transition-all duration-300 cursor-pointer flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-user-plus"></i> Criar Conta
+                    </button>
+                </div>
+            </div>
+
+            <div id="auth-login" class="hidden">
+                <div class="flex items-center gap-3 mb-6 border-b border-white/10 pb-4 mt-1">
+                    <button onclick="switchAuthView('auth-main')" class="text-gray-400 hover:text-white transition-colors"><i class="fa-solid fa-arrow-left"></i></button>
+                    <h2 class="text-lg font-bold">Login</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1 ml-1">E-mail</label>
+                        <input type="email" id="fake-email" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white/30 transition-colors" placeholder="seu@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-400 mb-1 ml-1">Senha</label>
+                        <input type="password" id="fake-pass" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-white/30 transition-colors" placeholder="••••••••">
+                    </div>
+                    
+                    <div id="login-error" class="hidden bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-semibold text-center p-2 rounded-lg mt-2">
+                        <i class="fa-solid fa-circle-exclamation mr-1"></i> E-mail ou senha incorretos!
+                    </div>
+                    
+                    <button onclick="attemptLogin()" class="w-full mt-4 py-2.5 bg-white text-black hover:bg-gray-200 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer">
+                        Entrar
+                    </button>
+                </div>
+            </div>
+
+            <div id="auth-register" class="hidden text-center mt-6">
+                <div class="w-16 h-16 bg-red-500/10 border border-red-500/30 rounded-full flex items-center justify-center mx-auto mb-4 shadow-[0_0_15px_rgba(239,68,68,0.2)]">
+                    <i class="fa-solid fa-server text-2xl text-red-400"></i>
+                </div>
+                <h2 class="text-lg font-bold text-white mb-2">Serviços Offline</h2>
+                <p class="text-sm text-gray-400 mb-8 leading-relaxed">Nossos serviços estão off-line no momento. Por favor, tente novamente em outro dia!</p>
+                
+                <button onclick="toggleModal('auth-modal', 'auth-content')" class="w-full py-2.5 bg-white/10 hover:bg-white/20 border border-white/10 rounded-xl text-sm font-semibold transition-all duration-300 text-white cursor-pointer">
+                    Compreender
+                </button>
             </div>
         </div>
     </div>
@@ -222,35 +327,73 @@
             animateParticles();
         }
 
-        // --- Sistema do Modal de Perfil ---
-        function toggleModal() {
-            const modal = document.getElementById('profile-modal');
-            const modalContent = document.getElementById('modal-content');
+        // --- Sistema de Modais Genérico ---
+        function toggleModal(modalId, contentId) {
+            const modal = document.getElementById(modalId);
+            const content = document.getElementById(contentId);
             
             if (modal.classList.contains('opacity-0')) {
-                // Abrir modal
+                // Abrir
                 modal.classList.remove('opacity-0', 'invisible');
-                modalContent.classList.remove('scale-95');
-                modalContent.classList.add('scale-100');
-            } else {
-                // Fechar modal
-                modal.classList.add('opacity-0');
-                modalContent.classList.remove('scale-100');
-                modalContent.classList.add('scale-95');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
                 
-                // Aguarda a transição de opacidade para esconder o elemento da tela
-                setTimeout(() => {
-                    modal.classList.add('invisible');
-                }, 300);
+                // Resetar o Auth modal se for ele sendo aberto
+                if(modalId === 'auth-modal') {
+                    switchAuthView('auth-main');
+                    document.getElementById('fake-email').value = '';
+                    document.getElementById('fake-pass').value = '';
+                    document.getElementById('login-error').classList.add('hidden');
+                }
+            } else {
+                // Fechar
+                modal.classList.add('opacity-0');
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+                setTimeout(() => modal.classList.add('invisible'), 300);
             }
         }
 
-        // Fechar o modal ao clicar na parte escura do fundo
-        document.getElementById('profile-modal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                toggleModal();
-            }
+        // Fechar clicando no fundo (para todos os modais)
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                // Previne que fechar o modal secundário feche o principal junto
+                if (e.target === this) {
+                    const contentId = this.querySelector('.modal-content-box').id;
+                    toggleModal(this.id, contentId);
+                }
+            });
         });
+
+        // --- Lógica Interna do Modal de Autenticação ---
+        function switchAuthView(viewId) {
+            const views = ['auth-main', 'auth-login', 'auth-register'];
+            views.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+                document.getElementById(id).classList.remove('block');
+            });
+            document.getElementById(viewId).classList.remove('hidden');
+            document.getElementById(viewId).classList.add('block');
+            
+            // Esconder o erro de login se mudar de tela
+            document.getElementById('login-error').classList.add('hidden');
+        }
+
+        function attemptLogin() {
+            const email = document.getElementById('fake-email').value;
+            const pass = document.getElementById('fake-pass').value;
+            const errorMsg = document.getElementById('login-error');
+            
+            // Se os campos estiverem vazios, foca neles
+            if(!email || !pass) {
+                if(!email) document.getElementById('fake-email').focus();
+                else document.getElementById('fake-pass').focus();
+                return;
+            }
+
+            // Exibe mensagem falsa de incorreto SEMPRE
+            errorMsg.classList.remove('hidden');
+        }
     </script>
 </body>
 </html>
